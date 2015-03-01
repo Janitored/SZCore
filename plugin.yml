@@ -1,0 +1,7 @@
+name: Server
+main: com.StravitZone.Core.Main
+version: 0.1
+author: Janitored_
+commands:
+    setrank:
+        description: Set a player's rank
