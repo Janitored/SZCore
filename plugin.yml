@@ -3,5 +3,7 @@ main: com.StravitZone.Core.Main
 version: 0.1
 author: Janitored_
 commands:
-    setrank:
+    rank:
         description: Set a player's rank
+    ban:
+        description: Ban a player w/ reason

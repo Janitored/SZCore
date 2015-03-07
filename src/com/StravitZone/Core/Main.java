@@ -2,35 +2,41 @@ package com.StravitZone.Core;
 
 
 
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
+import com.StravitZone.Core.API.MOTD;
+import com.StravitZone.Core.API.RankChat;
+import com.StravitZone.Core.API.RankHandlers;
 import com.StravitZone.Core.API.Stravit;
-import com.StravitZone.Core.Commands.Setrank;
+import com.StravitZone.Core.Commands.Commandban;
+import com.StravitZone.Core.Commands.Commandrank;
+import com.StravitZone.Core.Listeners.BowGamesInvClick;
+import com.StravitZone.Core.Listeners.ItemClick;
+import com.StravitZone.Core.Listeners.Join;
+import com.StravitZone.Core.Listeners.OCNInvClick;
+import com.StravitZone.Core.Listeners.Quit;
+
+
 
 public class Main extends Stravit {
-	
-	private static FileConfiguration config;
-	
-	private Player p;
-
 
 	public void onEnable() {
 
 		PluginManager listeners = getServer().getPluginManager();
+		listeners.registerEvents(new RankChat(), this);
+		listeners.registerEvents(new MOTD(), this);
+		listeners.registerEvents(new Join(), this);
+		listeners.registerEvents(new Quit(), this);
+		listeners.registerEvents(new OCNInvClick(), this);
+		listeners.registerEvents(new BowGamesInvClick(), this);
+		listeners.registerEvents(new ItemClick(), this);
+		listeners.registerEvents(new RankHandlers(), this);
 		
-		getCommand("setrank").setExecutor(new Setrank());
+		getCommand("rank").setExecutor(new Commandrank());
+		getCommand("ban").setExecutor(new Commandban());
 		
-		config.addDefault("isOwner", null);
-		config.addDefault("isAdmin", null);
-		config.addDefault("isMod", null);
-		config.addDefault("isVip", null);
-		config.addDefault("isBuilder", null);
-		config.addDefault("isDev", null);
-		config.addDefault("isDefault", p.getName());
-		config.options().copyDefaults(true);
-		saveConfig();
+		RankHandlers.getInstance().setup(this);
+		
 		
 	}
 

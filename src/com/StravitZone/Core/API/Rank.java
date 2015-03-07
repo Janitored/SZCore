@@ -1,15 +1,16 @@
 package com.StravitZone.Core.API;
 
+import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
+
+import com.StravitZone.Core.Main;
 
 public class Rank {
 	
-	public static Permission OWNER = new Permission("sz.owner");
-	public static Permission ADMIN = new Permission("sz.admin");
-	public static Permission MODERATOR = new Permission("sz.moderator");
-	public static Permission DEVELOPER = new Permission("sz.developer");
-	public static Permission VIP = new Permission("sz.vip");
-	public static Permission BUILDER = new Permission("sz.builder");
-	public static Permission ALL = new Permission("sz.all");
+	public static Permission admin = new Permission("sz.admin");
+	public static Permission moderator = new Permission("sz.mod");
+	public static Permission vip = new Permission("sz.donor.vip");
+	public static Permission builder = new Permission("sz.builder");
+	public static Permission all = new Permission("sz.default");
 
 }
