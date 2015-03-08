@@ -2,6 +2,7 @@ package com.StravitZone.Core.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,8 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
@@ -24,7 +26,75 @@ public class OCNInvClick implements Listener {
 	int ocntimechain = 8;
 	int ocntimeleather = 8;
 
+	private void diamondgear(Player player) {
+		player.getInventory().clear();
+		player.getInventory().addItem(ocndiamondgear);
+		player.getInventory().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
+		player.getInventory().setChestplate(
+				new ItemStack(Material.DIAMOND_CHESTPLATE));
+		player.getInventory().setLeggings(
+				new ItemStack(Material.DIAMOND_LEGGINGS));
+		player.getInventory().setBoots(new ItemStack(Material.DIAMOND_BOOTS));
+	}
+
+	private void irongear(Player player) {
+		player.getInventory().clear();
+		player.getInventory().addItem(ocnirongear);
+		player.getInventory().setHelmet(new ItemStack(Material.IRON_HELMET));
+		player.getInventory().setChestplate(
+				new ItemStack(Material.IRON_CHESTPLATE));
+		player.getInventory()
+				.setLeggings(new ItemStack(Material.IRON_LEGGINGS));
+		player.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
+	}
+
+	private void goldgear(Player player) {
+		player.getInventory().clear();
+		player.getInventory().addItem(ocngoldgear);
+		player.getInventory().setHelmet(new ItemStack(Material.GOLD_HELMET));
+		player.getInventory().setChestplate(
+				new ItemStack(Material.GOLD_CHESTPLATE));
+		player.getInventory()
+				.setLeggings(new ItemStack(Material.GOLD_LEGGINGS));
+		player.getInventory().setBoots(new ItemStack(Material.GOLD_BOOTS));
+	}
+
+	private void chaingear(Player player) {
+		player.getInventory().clear();
+		player.getInventory().addItem(ocnchaingear);
+		player.getInventory().setHelmet(
+				new ItemStack(Material.CHAINMAIL_HELMET));
+		player.getInventory().setChestplate(
+				new ItemStack(Material.CHAINMAIL_CHESTPLATE));
+		player.getInventory().setLeggings(
+				new ItemStack(Material.CHAINMAIL_LEGGINGS));
+		player.getInventory().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+	}
+
+	private void leathergear(Player player) {
+		player.getInventory().clear();
+		player.getInventory().addItem(ocnleathergear);
+		player.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
+		player.getInventory().setChestplate(
+				new ItemStack(Material.LEATHER_CHESTPLATE));
+		player.getInventory().setLeggings(
+				new ItemStack(Material.LEATHER_LEGGINGS));
+		player.getInventory().setBoots(new ItemStack(Material.LEATHER_BOOTS));
+	}
+
+	ItemStack[] ocndiamondgear = { new ItemStack(Material.DIAMOND_SWORD),
+			new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 120) };
+	ItemStack[] ocnirongear = { new ItemStack(Material.IRON_SWORD),
+			new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 120) };
+	ItemStack[] ocngoldgear = { new ItemStack(Material.GOLD_SWORD),
+			new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 120) };
+	ItemStack[] ocnchaingear = { new ItemStack(Material.STONE_SWORD),
+			new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 120) };
+	ItemStack[] ocnleathergear = { new ItemStack(Material.WOOD_SWORD),
+			new ItemStack(Material.BOW), new ItemStack(Material.ARROW, 120) };
+
 	Location ocnwait = new Location(Bukkit.getWorld("world"), 100, 100, 100);
+
 	Location ocnfightdiamond = new Location(Bukkit.getWorld("world"), 100, 100,
 			100);
 	Location ocnfightgold = new Location(Bukkit.getWorld("world"), 100, 100,
@@ -38,13 +108,14 @@ public class OCNInvClick implements Listener {
 
 	@EventHandler
 	public void click(InventoryClickEvent e) {
-		Player player = (Player) e.getWhoClicked();
+		final Player player = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		Inventory inventory = e.getInventory();
 
 		if (inventory.getName().equals(OCNGames.OCN.getName())) {
-			
-			if(clicked == null) return;
+
+			if (clicked == null)
+				return;
 
 			switch (clicked.getType()) {
 
@@ -58,6 +129,7 @@ public class OCNInvClick implements Listener {
 						ocntimediamond--;
 						if (ocntimediamond == 6) {
 							player.teleport(ocnwait);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
 						}
 
 						else if (ocntimediamond == 5 || ocntimediamond == 4
@@ -65,7 +137,9 @@ public class OCNInvClick implements Listener {
 								|| ocntimediamond == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimediamond + " §a§lsecond(s)");
+									+ ocntimediamond + "s");
+							player.playSound(player.getLocation(), Sound.CLICK,
+									1, 1);
 						}
 
 						else if (ocntimediamond == 0) {
@@ -74,9 +148,12 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
 							this.cancel();
+							diamondgear(player);
 							ocntimediamond = 8;
 						}
+						
 					}
 				}.runTaskTimer(Main.getInstance(), 0, 20);
 
@@ -92,6 +169,7 @@ public class OCNInvClick implements Listener {
 						ocntimegold--;
 						if (ocntimegold == 6) {
 							player.teleport(ocnwait);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
 						}
 
 						else if (ocntimegold == 5 || ocntimegold == 4
@@ -99,7 +177,9 @@ public class OCNInvClick implements Listener {
 								|| ocntimegold == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimegold + " §a§lsecond(s)");
+									+ ocntimegold + "s");
+							player.playSound(player.getLocation(), Sound.CLICK,
+									1, 1);
 						}
 
 						else if (ocntimegold == 0) {
@@ -108,9 +188,12 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							goldgear(player);
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimegold = 8;
 						}
+						
 					}
 				}.runTaskTimer(Main.getInstance(), 0, 20);
 
@@ -126,6 +209,7 @@ public class OCNInvClick implements Listener {
 						ocntimeiron--;
 						if (ocntimeiron == 6) {
 							player.teleport(ocnwait);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
 						}
 
 						else if (ocntimeiron == 5 || ocntimeiron == 4
@@ -133,7 +217,9 @@ public class OCNInvClick implements Listener {
 								|| ocntimeiron == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimeiron + " §a§lsecond(s)");
+									+ ocntimeiron+ "s");
+							player.playSound(player.getLocation(), Sound.CLICK,
+									1, 1);
 						}
 
 						else if (ocntimeiron == 0) {
@@ -142,6 +228,8 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							irongear(player);
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimeiron = 8;
 						}
@@ -160,6 +248,7 @@ public class OCNInvClick implements Listener {
 						ocntimechain--;
 						if (ocntimechain == 6) {
 							player.teleport(ocnwait);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
 						}
 
 						else if (ocntimechain == 5 || ocntimechain == 4
@@ -167,7 +256,9 @@ public class OCNInvClick implements Listener {
 								|| ocntimechain == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimechain + " §a§lsecond(s)");
+									+ ocntimechain + "s");
+							player.playSound(player.getLocation(), Sound.CLICK,
+									1, 1);
 						}
 
 						else if (ocntimechain == 0) {
@@ -176,6 +267,8 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							chaingear(player);
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimechain = 8;
 						}
@@ -194,6 +287,7 @@ public class OCNInvClick implements Listener {
 						ocntimeleather--;
 						if (ocntimeleather == 6) {
 							player.teleport(ocnwait);
+							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
 						}
 
 						else if (ocntimeleather == 5 || ocntimeleather == 4
@@ -201,7 +295,9 @@ public class OCNInvClick implements Listener {
 								|| ocntimeleather == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimeleather + " §a§lsecond(s)");
+									+ ocntimeleather + "s");
+							player.playSound(player.getLocation(), Sound.CLICK,
+									1, 1);
 						}
 
 						else if (ocntimeleather == 0) {
@@ -210,6 +306,8 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							leathergear(player);
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimeleather = 8;
 						}

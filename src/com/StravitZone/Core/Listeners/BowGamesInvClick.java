@@ -37,7 +37,7 @@ public class BowGamesInvClick implements Listener {
 
 	@EventHandler
 	public void click(InventoryClickEvent e) {
-		Player player = (Player) e.getWhoClicked();
+		final Player player = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		Inventory inventory = e.getInventory();
 		

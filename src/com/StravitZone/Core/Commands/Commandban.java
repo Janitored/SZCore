@@ -40,7 +40,7 @@ public class Commandban extends SCommand {
 				}
 				StringBuilder str = new StringBuilder();
 				for (int i = 1; i < a.length; i++) {
-					str.append(a[i]);
+					str.append(a[i] + " ");
 				}
 
 				String reason = str.toString();

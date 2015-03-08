@@ -7,3 +7,17 @@ commands:
         description: Set a player's rank
     ban:
         description: Ban a player w/ reason
+    kick:
+        description: Kick a player w/ reason
+    mute:
+        description: Mute a player w/ reason
+    unban:
+        description: Unban a player
+    unmute:
+        description: Unmute a player
+    restore:
+        description: Restore your admin rank
+    about:
+        description: Plugin info
+    setstate:
+        description: Set plugin state
