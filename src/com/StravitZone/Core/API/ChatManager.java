@@ -15,7 +15,7 @@ public class ChatManager {
 	}
 	
 	public static String announcement() {
-		return "§a§l>> §2";
+		return "§a§l>> §b";
 	}
 	
 	public static String punish_kick() {

@@ -19,6 +19,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
 import com.StravitZone.Core.API.Rank;
+import com.StravitZone.Core.API.Tutorial;
 
 public class Join implements Listener {
 	

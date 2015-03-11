@@ -13,7 +13,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
-import com.StravitZone.Core.GUIs.BowGames;
+import com.StravitZone.Core.API.Tutorial;
+import com.StravitZone.Core.GUI.BowGames;
 
 public class BowGamesInvClick implements Listener {
 
@@ -37,6 +38,12 @@ public class BowGamesInvClick implements Listener {
 
 	@EventHandler
 	public void click(InventoryClickEvent e) {
+		
+		if(Tutorial.tutorial != 60){
+			e.setCancelled(true);
+			return;
+		}
+		
 		final Player player = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		Inventory inventory = e.getInventory();
@@ -55,7 +62,10 @@ public class BowGamesInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						bowgametimess--;
-						if (bowgametimess == 6) {
+						if(bowgametimess == 7){
+							player.getInventory().clear();
+						}
+						else if (bowgametimess == 6) {
 							player.teleport(bowgameswait);
 						}
 
@@ -89,7 +99,10 @@ public class BowGamesInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						bowgametimeoitc--;
-						if (bowgametimeoitc == 6) {
+						if(bowgametimeoitc == 7){
+							player.getInventory().clear();
+						}
+						else if (bowgametimeoitc == 6) {
 							player.teleport(bowgameswait);
 						}
 
@@ -123,7 +136,10 @@ public class BowGamesInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						bowgametimesumo--;
-						if (bowgametimesumo == 6) {
+						if(bowgametimesumo == 7){
+							player.getInventory().clear();
+						}
+						else if (bowgametimesumo == 6) {
 							player.teleport(bowgameswait);
 						}
 
@@ -157,7 +173,10 @@ public class BowGamesInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						bowgametimefire--;
-						if (bowgametimefire == 6) {
+						if(bowgametimefire == 7){
+							player.getInventory().clear();
+						}
+						else if (bowgametimefire == 6) {
 							player.teleport(bowgameswait);
 						}
 
@@ -191,7 +210,10 @@ public class BowGamesInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						bowgametimefire--;
-						if (bowgametimefire == 6) {
+						if(bowgametimefire  == 7){
+							player.getInventory().clear();
+						}
+						else if (bowgametimefire == 6) {
 							player.teleport(bowgameswait);
 						}
 

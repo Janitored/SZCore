@@ -1,4 +1,4 @@
-package com.StravitZone.Core.GUIs;
+package com.StravitZone.Core.GUI;
 
 import java.util.Arrays;
 

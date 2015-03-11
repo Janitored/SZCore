@@ -7,15 +7,22 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.StravitZone.Core.GUIs.BowGames;
-import com.StravitZone.Core.GUIs.OCNGames;
-import com.StravitZone.Core.GUIs.PotionGames;
-import com.StravitZone.Core.GUIs.SoupGames;
+import com.StravitZone.Core.API.Tutorial;
+import com.StravitZone.Core.GUI.BowGames;
+import com.StravitZone.Core.GUI.OCNGames;
+import com.StravitZone.Core.GUI.PotionGames;
+import com.StravitZone.Core.GUI.SoupGames;
 
 public class ItemClick implements Listener {
 
 	@EventHandler
 	public void click(PlayerInteractEvent e) {
+		
+		if(Tutorial.tutorial != 60){
+			e.setCancelled(true);
+			return;
+		}
+		
 		Player p = e.getPlayer();
 		Action a = e.getAction();
 

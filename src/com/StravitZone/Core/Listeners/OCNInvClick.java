@@ -16,7 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
-import com.StravitZone.Core.GUIs.OCNGames;
+import com.StravitZone.Core.API.Tutorial;
+import com.StravitZone.Core.GUI.OCNGames;
 
 public class OCNInvClick implements Listener {
 
@@ -108,6 +109,12 @@ public class OCNInvClick implements Listener {
 
 	@EventHandler
 	public void click(InventoryClickEvent e) {
+		
+		if(Tutorial.tutorial != 60){
+			e.setCancelled(true);
+			return;
+		}
+		
 		final Player player = (Player) e.getWhoClicked();
 		ItemStack clicked = e.getCurrentItem();
 		Inventory inventory = e.getInventory();
@@ -127,9 +134,13 @@ public class OCNInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						ocntimediamond--;
-						if (ocntimediamond == 6) {
+						if (ocntimediamond == 7) {
+							player.getInventory().clear();
+						} else if (ocntimediamond == 6) {
 							player.teleport(ocnwait);
-							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
+							player.addPotionEffect(new PotionEffect(
+									PotionEffectType.INVISIBILITY, 1000000,
+									100000));
 						}
 
 						else if (ocntimediamond == 5 || ocntimediamond == 4
@@ -148,12 +159,13 @@ public class OCNInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"effect " + player.getName() + " clear");
 							this.cancel();
 							diamondgear(player);
 							ocntimediamond = 8;
 						}
-						
+
 					}
 				}.runTaskTimer(Main.getInstance(), 0, 20);
 
@@ -167,9 +179,13 @@ public class OCNInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						ocntimegold--;
-						if (ocntimegold == 6) {
+						if (ocntimegold == 7) {
+							player.getInventory().clear();
+						} else if (ocntimegold == 6) {
 							player.teleport(ocnwait);
-							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
+							player.addPotionEffect(new PotionEffect(
+									PotionEffectType.INVISIBILITY, 1000000,
+									100000));
 						}
 
 						else if (ocntimegold == 5 || ocntimegold == 4
@@ -189,11 +205,12 @@ public class OCNInvClick implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							goldgear(player);
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimegold = 8;
 						}
-						
+
 					}
 				}.runTaskTimer(Main.getInstance(), 0, 20);
 
@@ -207,9 +224,13 @@ public class OCNInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						ocntimeiron--;
-						if (ocntimeiron == 6) {
+						if (ocntimeiron == 7) {
+							player.getInventory().clear();
+						} else if (ocntimeiron == 6) {
 							player.teleport(ocnwait);
-							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
+							player.addPotionEffect(new PotionEffect(
+									PotionEffectType.INVISIBILITY, 1000000,
+									100000));
 						}
 
 						else if (ocntimeiron == 5 || ocntimeiron == 4
@@ -217,7 +238,7 @@ public class OCNInvClick implements Listener {
 								|| ocntimeiron == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ ocntimeiron+ "s");
+									+ ocntimeiron + "s");
 							player.playSound(player.getLocation(), Sound.CLICK,
 									1, 1);
 						}
@@ -229,7 +250,8 @@ public class OCNInvClick implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							irongear(player);
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimeiron = 8;
 						}
@@ -246,9 +268,13 @@ public class OCNInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						ocntimechain--;
-						if (ocntimechain == 6) {
+						if (ocntimechain == 7) {
+							player.getInventory().clear();
+						} else if (ocntimechain == 6) {
 							player.teleport(ocnwait);
-							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
+							player.addPotionEffect(new PotionEffect(
+									PotionEffectType.INVISIBILITY, 1000000,
+									100000));
 						}
 
 						else if (ocntimechain == 5 || ocntimechain == 4
@@ -268,7 +294,8 @@ public class OCNInvClick implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							chaingear(player);
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimechain = 8;
 						}
@@ -285,9 +312,13 @@ public class OCNInvClick implements Listener {
 				new BukkitRunnable() {
 					public void run() {
 						ocntimeleather--;
-						if (ocntimeleather == 6) {
+						if (ocntimeleather == 7) {
+							player.getInventory().clear();
+						} else if (ocntimeleather == 6) {
 							player.teleport(ocnwait);
-							player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 1000000, 100000));
+							player.addPotionEffect(new PotionEffect(
+									PotionEffectType.INVISIBILITY, 1000000,
+									100000));
 						}
 
 						else if (ocntimeleather == 5 || ocntimeleather == 4
@@ -307,7 +338,8 @@ public class OCNInvClick implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							leathergear(player);
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "effect " + player.getName() + " clear");
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"effect " + player.getName() + " clear");
 							this.cancel();
 							ocntimeleather = 8;
 						}

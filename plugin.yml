@@ -1,6 +1,6 @@
 name: Server
 main: com.StravitZone.Core.Main
-version: 0.1
+version: 1.0
 author: Janitored_
 commands:
     rank:
@@ -17,7 +17,20 @@ commands:
         description: Unmute a player
     restore:
         description: Restore your admin rank
-    about:
-        description: Plugin info
-    setstate:
-        description: Set plugin state
+    addworld:
+        description: Create a world
+    tpworld:
+        description: TP to a world
+    broadcast:
+        description: Broadcast a message
+        aliases: [bc]
+    lockchat:
+        description: lock the chat
+    clearchat:
+        description: clear the chat
+    game:
+        description: Plugin information
+    giveaway:
+        description: Begin a giveaway
+    tutorial:
+        description: SZ Tutorial
