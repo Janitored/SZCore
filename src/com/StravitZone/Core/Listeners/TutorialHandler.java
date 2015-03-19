@@ -6,11 +6,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.StravitZone.Core.API.ChatManager;
 import com.StravitZone.Core.API.Tutorial;
+import com.StravitZone.Core.Commands.Tut;
 
 public class TutorialHandler extends Tutorial implements Listener {
 
@@ -47,7 +49,13 @@ public class TutorialHandler extends Tutorial implements Listener {
 	public void quit(PlayerQuitEvent e) {
 		if (Tutorial.inTut.contains(e.getPlayer())) {
 			Tutorial.inTut.remove(e.getPlayer());
+			return ;
 		}
+		
+		if(Tut.tutFinished.contains(e.getPlayer())){
+			Tut.tutFinishedOff.add(e.getPlayer().getUniqueId());
+		}
+		
 	}
 	
 	@EventHandler
@@ -62,6 +70,13 @@ public class TutorialHandler extends Tutorial implements Listener {
 			return;
 		}
 
+	}
+	
+	@EventHandler
+	public void join(PlayerJoinEvent e){
+		if(Tut.tutFinishedOff.contains(e.getPlayer().getUniqueId())){
+			Tut.tutFinished.add(e.getPlayer());
+		}
 	}
 
 }

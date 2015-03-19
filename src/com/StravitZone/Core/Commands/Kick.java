@@ -50,6 +50,9 @@ public class Kick extends SCommand{
 			t.kickPlayer("§4§lPUNISHMENT \n §7" + "\n §c§l" + p.getName()
 					+ " §7has kicked you for the reason: \n §c§l" + "\n"
 					+ reason);
+			
+			Bukkit.broadcastMessage(ChatManager.punish_kick() + t.getName() + " has been kicked for " + reason);
+			
 		}
 	}
 

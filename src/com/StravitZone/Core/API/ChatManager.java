@@ -26,6 +26,10 @@ public class ChatManager {
 		return "§c§l>> §4";
 	}
 	
+	public static String punish_mute(){
+		return "§4§l>> §c§o";
+	}
+	
 	public static String player_join() {
 		return "§2§l>> §a ";
 	}
@@ -36,6 +40,14 @@ public class ChatManager {
 	
 	public static String success() {
 		return "§a§l>> §6";
+	}
+	
+	public static String info(){
+		return "§3§l>> §a";
+	}
+	
+	public static String error_player_not_found(){
+		return "§c§l>> §4§oThe specified player cannot be found!";
 	}
 
 }

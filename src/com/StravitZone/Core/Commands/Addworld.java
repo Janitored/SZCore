@@ -41,6 +41,8 @@ public class Addworld extends SCommand{
 				
 				Bukkit.getWorlds().add(Bukkit.getWorld(a[0]));
 				
+				Bukkit.getWorld(a[0]).save();
+				
 				p.sendMessage(ChatManager.success() + " Created world §e§o" + a[0] + "§6!");
 				
 			}

@@ -2,197 +2,135 @@ package com.StravitZone.Core.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
-import com.StravitZone.Core.API.Rank;
-import com.StravitZone.Core.API.Tutorial;
+import com.StravitZone.Core.API.PlayerManager;
+import com.StravitZone.Core.API.RankHandlers;
+import com.StravitZone.Core.Player.SPlayer;
 
 public class Join implements Listener {
-	
-	int animation = 15;
 
+	int joinwait = 3;
+
+	
+	@SuppressWarnings("static-access")
 	@EventHandler
-	public void join(PlayerJoinEvent e) {
-		
+	public void join(final PlayerJoinEvent e) {
+
 		Player p = e.getPlayer();
 		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
+		SPlayer pl = new SPlayer(p);
+        
+		
 
-		Scoreboard mainboard = manager.getNewScoreboard();
+		PlayerManager.setTribute(p);
+		
+		pl.showStatBoard(p);
 
-		final Objective objective = mainboard.registerNewObjective("test",
-				"dummy");
 
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+	
 
-		int credits = Main.getInstance().getConfig().getInt(p.getName());
-
-		Score welcome = objective.getScore("§3" + p.getName());
-		welcome.setScore(5);
-
-		Score space = objective.getScore("§c----------");
-		space.setScore(4);
-
-		Score score = objective.getScore("§5Credits:");
-		score.setScore(credits);
-
-		Score space2 = objective.getScore("§c----------");
-		space2.setScore(2);
-
-		Score score2 = objective.getScore("§aPlayers:");
-		score2.setScore(Bukkit.getServer().getOnlinePlayers().length);
-
-		ItemStack bow = new ItemStack(Material.ARROW);
+		final ItemStack bow = new ItemStack(Material.ARROW);
 		ItemMeta o = bow.getItemMeta();
 		o.setDisplayName("§6§lBow Games");
 		bow.setItemMeta(o);
 
-		ItemStack ocn = new ItemStack(Material.ARROW);
+		final ItemStack ocn = new ItemStack(Material.ARROW);
 
 		ItemMeta o2 = ocn.getItemMeta();
 		o2.setDisplayName("§e§lOCN Games");
 		ocn.setItemMeta(o2);
 
-		ItemStack pot = new ItemStack(Material.ARROW);
+		final ItemStack pot = new ItemStack(Material.ARROW);
 
 		ItemMeta o3 = pot.getItemMeta();
 		o3.setDisplayName("§b§lPotion Games");
 		pot.setItemMeta(o3);
 
-		ItemStack soup = new ItemStack(Material.ARROW);
+		final ItemStack soup = new ItemStack(Material.ARROW);
 
 		ItemMeta o4 = soup.getItemMeta();
 		o4.setDisplayName("§9§lSoup Games");
 		soup.setItemMeta(o4);
 
 		e.setJoinMessage(ChatManager.player_join() + e.getPlayer().getName());
-		
-		p.setScoreboard(mainboard);
 
-		e.getPlayer().getInventory().setItem(0, bow);
-		e.getPlayer().getInventory().setItem(1, ocn);
-		e.getPlayer().getInventory().setItem(7, pot);
-		e.getPlayer().getInventory().setItem(8, soup);
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "clear "
+				+ e.getPlayer().getName());
+		
+		new BukkitRunnable(){
+			public void run(){
+				
+				joinwait--;
+				
+				if(joinwait == 0){
+					
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.NOTE_PLING, 1, 2);
+					
+					e.getPlayer().sendMessage("§6o----------------------------------------------o");
+					e.getPlayer().sendMessage("");
+					e.getPlayer().sendMessage("§e§lWelcome to §6§lSTRAVITZONE§e§l, §6§l" + e.getPlayer().getName() + "§e§l!");
+					e.getPlayer().sendMessage("");
+					e.getPlayer().sendMessage("§e§lUse your §6§lGAME ARROWS§e§l to select a gamemode!");
+					e.getPlayer().sendMessage("");
+					e.getPlayer().sendMessage("§e§lHelp support us by purchasing §6§lVIP §e§lat our shop!");
+					e.getPlayer().sendMessage("");
+					e.getPlayer().sendMessage("§6o----------------------------------------------o");
+					
+					
+					e.getPlayer().getInventory().setItem(0, bow);
+					e.getPlayer().getInventory().setItem(1, ocn);
+					e.getPlayer().getInventory().setItem(7, pot);
+					e.getPlayer().getInventory().setItem(8, soup);
+					
+					this.cancel();
+					joinwait = 3;
+				}
+				
+			}
+		}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 		if (!e.getPlayer().hasPlayedBefore()) {
-			PermissionAttachment perm = e.getPlayer().addAttachment(
-					Main.getInstance());
-			perm.setPermission(Rank.all, true);
-			e.getPlayer().getInventory().setItem(0, bow);
-			e.getPlayer().getInventory().setItem(1, ocn);
-			e.getPlayer().getInventory().setItem(7, pot);
-			e.getPlayer().getInventory().setItem(8, soup);
+
+			SPlayer sp = new SPlayer(e.getPlayer());
+
+			e.getPlayer()
+					.sendMessage(
+							ChatManager.info()
+									+ " Welcome! You've been given a welcome gift of 20 credits!");
+
+			sp.addCredits(e.getPlayer(), 20);
+
+			sp.setRank(e.getPlayer(), "player");
+
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "clear "
+					+ e.getPlayer().getName());
 		}
-		
-		new BukkitRunnable() {
-			public void run() {
 
-				animation--;
+		if (!(RankHandlers.admins.contains(e.getPlayer())
+				|| RankHandlers.mods.contains(e.getPlayer())
+				|| RankHandlers.build.contains(e.getPlayer())
+				|| RankHandlers.vip.contains(e.getPlayer()) || RankHandlers.all
+					.contains(e.getPlayer()))) {
+			
+			SPlayer sp = new SPlayer(e.getPlayer());
+			
+			sp.setRank(e.getPlayer(), "player");
+			
+			
 
-				if (animation == 15) {
-					objective.setDisplayName("§6§lStravitZone");
-				}
+		}
 
-				if (animation == 14) {
-					objective.setDisplayName("§e§lS§6§ltravitZone");
-				}
-
-				if (animation == 13) {
-					objective.setDisplayName("§e§lST§6§lravitZone");
-				}
-				if (animation == 12) {
-					objective.setDisplayName("§e§lSTR§6§lavitZone");
-				}
-
-				if (animation == 11) {
-					objective.setDisplayName("§e§lSTRA§6§lvitZone");
-				}
-
-				if (animation == 10) {
-					objective.setDisplayName("§e§lSTRAV§6§litZone");
-				}
-
-				if (animation == 9) {
-					objective.setDisplayName("§e§lSTRAVI§6§ltZone");
-				}
-
-				if (animation == 8) {
-					objective.setDisplayName("§e§lSTRAVIT§6§lZone");
-				}
-
-				if (animation == 7) {
-					objective.setDisplayName("§e§lSTRAVITZ§6§lone");
-				}
-
-				if (animation == 6) {
-					objective.setDisplayName("§e§lSTRAVITZO§6§lne");
-				}
-
-				if (animation == 5) {
-					objective.setDisplayName("§e§lSTRAVITZON§6§ln");
-				}
-
-				if (animation == 4) {
-					objective.setDisplayName("§e§lSTRAVITZONE");
-				}
-
-				if (animation == 3) {
-					objective.setDisplayName("§6§lStravitZone");
-				}
-
-				if (animation == 2) {
-					objective.setDisplayName("§e§lStravitZone");
-				}
-
-				if (animation == 1) {
-					objective.setDisplayName("§6§lStravitZone");
-				}
-
-				if (animation == 0) {
-					objective.setDisplayName("§e§lStravitZone");
-				}
-				
-				if(animation == -1){
-					objective.setDisplayName("§6§lStravitZone");
-					
-				}
-				if(animation == -2){
-					objective.setDisplayName("§e§lStravitZone");
-					
-				}
-				if(animation == -3){
-					objective.setDisplayName("§6§lStravitZone");
-					
-				}
-				if(animation == -4){
-					objective.setDisplayName("§6§lStravitZone");
-					
-				}
-				if(animation == -5){
-					objective.setDisplayName("§6§lStravitZone");
-				}
-				
-				if(animation == -6){
-					this.cancel();
-					animation = 15;
-				}
-
-			}
-		}.runTaskTimer(Main.getInstance(), 1, 5);
-		
 	}
+	
+	
 }

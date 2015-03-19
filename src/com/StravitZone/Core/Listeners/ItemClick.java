@@ -18,7 +18,7 @@ public class ItemClick implements Listener {
 	@EventHandler
 	public void click(PlayerInteractEvent e) {
 		
-		if(Tutorial.tutorial != 60){
+		if(Tutorial.inTut.contains(e.getPlayer())){
 			e.setCancelled(true);
 			return;
 		}

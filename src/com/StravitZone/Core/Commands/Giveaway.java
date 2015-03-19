@@ -20,6 +20,7 @@ public class Giveaway extends SCommand {
 
 	public boolean onCommand(CommandSender s, Command c, String st, String[] a) {
 		final Player p = (Player) s;
+		for (final Player pl : Bukkit.getOnlinePlayers()) {
 		if (c.getName().equalsIgnoreCase("giveaway")) {
 			if (!p.hasPermission(Rank.admin)) {
 				p.sendMessage(ChatManager.error_permission()
@@ -27,7 +28,7 @@ public class Giveaway extends SCommand {
 				return true;
 			}
 			
-			if(giveaway > 0){
+			if(giveaway != 15){
 				p.sendMessage(ChatManager.error_general() + " There is giveaway in progress!");
 				return true;
 			}
@@ -37,8 +38,6 @@ public class Giveaway extends SCommand {
 			new BukkitRunnable() {
 				public void run() {
 
-					for (Player pl : Bukkit.getOnlinePlayers()) {
-
 						giveaway--;
 
 						if (giveaway == 13) {
@@ -46,6 +45,8 @@ public class Giveaway extends SCommand {
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ p.getName()
 									+ " has started a giveaway. Get ready!");
+							pl.playSound(pl.getLocation(), Sound.LEVEL_UP,
+									1, 1);
 
 						}
 
@@ -53,6 +54,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " Winner will be announced in 10 seconds!");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -60,6 +63,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " Winner will be announced in 5 seconds!");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -67,6 +72,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " Winner will be announced in 3 seconds!");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -74,6 +81,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " Winner will be announced in 2 seconds!");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -81,6 +90,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " Winner will be announced in 1 second!");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -88,6 +99,8 @@ public class Giveaway extends SCommand {
 
 							Bukkit.broadcastMessage(ChatManager.announcement()
 									+ " The winner of the giveaway is...");
+							pl.playSound(pl.getLocation(), Sound.CLICK,
+									1, 1);
 
 						}
 
@@ -114,10 +127,12 @@ public class Giveaway extends SCommand {
 
 					}
 				}
-			}.runTaskTimer(Main.getInstance(), 0, 20);
+			.runTaskTimer(Main.getInstance(), 0, 20);
 
 		}
 		return false;
 	}
+		return false;
 
+}
 }

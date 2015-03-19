@@ -1,4 +1,4 @@
-package com.StravitZone.Core.Listeners;
+package com.StravitZone.Core.Game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,10 +16,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
+import com.StravitZone.Core.API.PlayerManager;
 import com.StravitZone.Core.API.Tutorial;
 import com.StravitZone.Core.GUI.SoupGames;
 
-public class SoupGamesInvClick implements Listener {
+public class Soup implements Listener {
 
 	int ffa = 8;
 	int snipe = 8;
@@ -56,13 +57,13 @@ public class SoupGamesInvClick implements Listener {
 	private void debuffgear(Player player) {
 
 		final Potion poison = new Potion(PotionType.POISON);
-		poison.setSplash(false);
+		poison.setSplash(true);
 
 		final Potion slow = new Potion(PotionType.SLOWNESS);
-		slow.setSplash(false);
+		slow.setSplash(true);
 
 		final Potion weak = new Potion(PotionType.WEAKNESS);
-		weak.setSplash(false);
+		weak.setSplash(true);
 
 		player.getInventory().clear();
 		player.getInventory().addItem(debuffgear);
@@ -185,7 +186,7 @@ public class SoupGamesInvClick implements Listener {
 	@EventHandler
 	public void inv(InventoryClickEvent e) {
 		
-		if(Tutorial.tutorial != 60){
+		if(Tutorial.inTut.contains(e.getWhoClicked())){
 			e.setCancelled(true);
 			return;
 		}
@@ -211,6 +212,7 @@ public class SoupGamesInvClick implements Listener {
 						ffa--;
 						if (ffa == 7) {
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						} else if (ffa == 6) {
 							player.teleport(soupwait);
 						}
@@ -228,12 +230,13 @@ public class SoupGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
 							ffagear(player);
 							this.cancel();
 							ffa = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -247,6 +250,7 @@ public class SoupGamesInvClick implements Listener {
 						snipe--;
 						if (snipe == 7) {
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						} else if (snipe == 6) {
 							player.teleport(soupwait);
 						}
@@ -265,11 +269,13 @@ public class SoupGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
+							snipegear(player);
 							this.cancel();
 							snipe = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -283,6 +289,7 @@ public class SoupGamesInvClick implements Listener {
 						debuff--;
 						if (debuff == 7) {
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						} else if (debuff == 6) {
 							player.teleport(soupwait);
 						}
@@ -301,11 +308,13 @@ public class SoupGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							debuffgear(player);
+							PlayerManager.setTribute(player);
 							this.cancel();
 							debuff = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -319,6 +328,7 @@ public class SoupGamesInvClick implements Listener {
 						swift--;
 						if (swift == 7) {
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						} else if (swift == 6) {
 							player.teleport(soupwait);
 						}
@@ -337,11 +347,13 @@ public class SoupGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							swiftgear(player);
+							PlayerManager.setTribute(player);
 							this.cancel();
 							swift = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -355,6 +367,7 @@ public class SoupGamesInvClick implements Listener {
 						mcsg--;
 						if (mcsg == 7) {
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						} else if (mcsg == 6) {
 							player.teleport(soupwait);
 						}
@@ -373,11 +386,13 @@ public class SoupGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							mcsggear(player);
+							PlayerManager.setTribute(player);
 							this.cancel();
 							mcsg = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 

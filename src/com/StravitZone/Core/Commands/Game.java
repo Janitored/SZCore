@@ -17,7 +17,7 @@ public class Game extends SCommand {
 					+ " §e§lbuild §6§l"
 					+ Main.getInstance().getDescription().getVersion()
 					+ "§e§l.");
-			p.sendMessage("§6§l>> §e§lDeveloped by §6§lJanitored_§e§l.");
+			p.sendMessage("§6§l>> §e§lDeveloped by §6§lJanitored§e§l.");
 		}
 		return false;
 	}

@@ -29,6 +29,12 @@ public class Unban extends SCommand{
 			
 			if(a.length == 1){
 				OfflinePlayer t = Bukkit.getOfflinePlayer(a[0]);
+				
+				if(t == null){
+					s.sendMessage(ChatManager.error_general() + a[0] + " cannot be found! (Have they ever joined the server?)");
+					return true;
+				}
+				
 				if(t.isBanned()){
 					p.sendMessage(ChatManager.success() + " Unbanned §e§o" + t.getName() + "§6.");
 					t.setBanned(false);

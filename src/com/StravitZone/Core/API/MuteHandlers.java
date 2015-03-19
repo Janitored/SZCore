@@ -19,7 +19,6 @@ public class MuteHandlers implements Listener{
 	@EventHandler
 	public void chat(AsyncPlayerChatEvent e){
 		if(onlinemuted.contains(e.getPlayer())){
-			e.setCancelled(true);
 			e.getPlayer().sendMessage("§4§lPUNISHMENT");
 			e.getPlayer().sendMessage("");
 			e.getPlayer().sendMessage("§c§lSILENCE!");
@@ -27,6 +26,7 @@ public class MuteHandlers implements Listener{
 			e.getPlayer().sendMessage("§7You are §c§l§oMUTED!");
 			e.getPlayer().sendMessage("");
 			e.getPlayer().sendMessage("§7Appeal at §c§lwww.StravitZone.enjin.com");
+			e.setCancelled(true);
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package com.StravitZone.Core.Listeners;
+package com.StravitZone.Core.Game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,10 +13,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
+import com.StravitZone.Core.API.PlayerManager;
 import com.StravitZone.Core.API.Tutorial;
 import com.StravitZone.Core.GUI.BowGames;
+import com.StravitZone.Core.Item.ItemStackFactory;
 
-public class BowGamesInvClick implements Listener {
+public class Bow implements Listener {
 
 	int bowgametimess = 8;
 	int bowgametimeoitc = 8;
@@ -39,7 +41,7 @@ public class BowGamesInvClick implements Listener {
 	@EventHandler
 	public void click(InventoryClickEvent e) {
 		
-		if(Tutorial.tutorial != 60){
+		if(Tutorial.inTut.contains(e.getWhoClicked())){
 			e.setCancelled(true);
 			return;
 		}
@@ -64,6 +66,7 @@ public class BowGamesInvClick implements Listener {
 						bowgametimess--;
 						if(bowgametimess == 7){
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						}
 						else if (bowgametimess == 6) {
 							player.teleport(bowgameswait);
@@ -83,11 +86,12 @@ public class BowGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
 							this.cancel();
 							bowgametimess = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -101,6 +105,7 @@ public class BowGamesInvClick implements Listener {
 						bowgametimeoitc--;
 						if(bowgametimeoitc == 7){
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						}
 						else if (bowgametimeoitc == 6) {
 							player.teleport(bowgameswait);
@@ -120,11 +125,13 @@ public class BowGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
+							ItemStackFactory.oitcBow(player);
 							this.cancel();
 							bowgametimeoitc = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -138,6 +145,7 @@ public class BowGamesInvClick implements Listener {
 						bowgametimesumo--;
 						if(bowgametimesumo == 7){
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						}
 						else if (bowgametimesumo == 6) {
 							player.teleport(bowgameswait);
@@ -157,11 +165,12 @@ public class BowGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
 							this.cancel();
 							bowgametimesumo = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -175,6 +184,7 @@ public class BowGamesInvClick implements Listener {
 						bowgametimefire--;
 						if(bowgametimefire == 7){
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						}
 						else if (bowgametimefire == 6) {
 							player.teleport(bowgameswait);
@@ -194,11 +204,12 @@ public class BowGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
 							this.cancel();
 							bowgametimefire = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 
@@ -212,6 +223,7 @@ public class BowGamesInvClick implements Listener {
 						bowgametimefire--;
 						if(bowgametimefire  == 7){
 							player.getInventory().clear();
+							PlayerManager.setWaiting(player);
 						}
 						else if (bowgametimefire == 6) {
 							player.teleport(bowgameswait);
@@ -231,11 +243,12 @@ public class BowGamesInvClick implements Listener {
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
+							PlayerManager.setTribute(player);
 							this.cancel();
 							bowgametimefire = 8;
 						}
 					}
-				}.runTaskTimer(Main.getInstance(), 0, 20);
+				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 
 				break;
 

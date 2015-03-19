@@ -1,7 +1,8 @@
 name: Server
 main: com.StravitZone.Core.Main
-version: 1.0
-author: Janitored_
+version: 2.1.5
+author: Janitored
+depend: [BarAPI]
 commands:
     rank:
         description: Set a player's rank
@@ -34,3 +35,36 @@ commands:
         description: Begin a giveaway
     tutorial:
         description: SZ Tutorial
+    worlds:
+        description: List the current worlds
+    staffchat:
+        description: Speak in the staff chat
+        aliases: [sc]
+    deleteworld:
+        description: Delete a world
+    ct:
+        description: Combat tag status
+    team:
+        description: View your team
+    who:
+        description: Lookup a player
+    ping:
+        description: Ping info
+        aliases: [p]
+    server:
+        description: Server settings
+    lock:
+        description: Lockdown credentials
+    credits:
+        description: View credits
+        aliases: [c]
+    credit:
+        description: Credit options
+    stats:
+        description: View stats
+    datareload:
+        description: Reload data
+        aliases: [dr]
+    multiplycredits:
+        description: Multiply credit value
+        aliases: [mc]

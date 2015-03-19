@@ -97,6 +97,7 @@ public class Tutorial {
 					tutorial = 60;
 					Tut.one.remove(p);
 					inTut.remove(p);
+					Tut.tutFinished.add(p);
 
 				}
 

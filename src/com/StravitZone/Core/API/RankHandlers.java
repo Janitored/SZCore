@@ -1,82 +1,141 @@
 package com.StravitZone.Core.API;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
-import org.bukkit.entity.Player;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.permissions.PermissionAttachment;
 
 import com.StravitZone.Core.Main;
+import com.StravitZone.Core.Player.SPlayer;
 
 public class RankHandlers implements Listener {
 
-	private List<UUID> admin = new ArrayList<>();
-	private List<UUID> mod = new ArrayList<>();
-	private List<UUID> builder = new ArrayList<>();
-	private List<UUID> vip = new ArrayList<>();
-	private List<UUID> all = new ArrayList<>();
+	public static FileConfiguration rankdata;
+
+	public static List<String> admins = Main.rankdata.getStringList("Admins.");
+	public static List<String> mods = Main.rankdata.getStringList("Mods.");
+	public static List<String> build = Main.rankdata.getStringList("Builders.");
+	public static List<String> vip = Main.rankdata.getStringList("VIPs.");
+	public static List<String> all = Main.rankdata.getStringList("Players.");
 
 	@EventHandler
 	public void leave(PlayerQuitEvent e) {
 
-		Player p = e.getPlayer();
+		if (e.getPlayer().hasPermission(Rank.admin)) {
 
-		if (p.hasPermission(Rank.admin)) {
-			admin.add(p.getUniqueId());
+			if (!admins.contains(e.getPlayer().getName())) {
+				admins.add(e.getPlayer().getName());
+				mods.remove(e.getPlayer().getName());
+				build.remove(e.getPlayer().getName());
+				vip.remove(e.getPlayer().getName());
+				all.remove(e.getPlayer().getName());
+				Main.rankdata.set("Admins." + e.getPlayer(), admins);
+				try {
+					Main.rankdata.save(Main.rankData);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
-		if (p.hasPermission(Rank.moderator)) {
-			mod.add(p.getUniqueId());
+		if (e.getPlayer().hasPermission(Rank.moderator)) {
+			if (!mods.contains(e.getPlayer().getName())) {
+				mods.add(e.getPlayer().getName());
+				admins.remove(e.getPlayer().getName());
+				build.remove(e.getPlayer().getName());
+				vip.remove(e.getPlayer().getName());
+				all.remove(e.getPlayer().getName());
+				Main.rankdata
+						.set("Mods." + e.getPlayer(), mods);
+				try {
+					Main.rankdata.save(Main.rankData);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
-		if (p.hasPermission(Rank.builder)) {
-			builder.add(p.getUniqueId());
+		if (e.getPlayer().hasPermission(Rank.builder)) {
+			if (!build.contains(e.getPlayer().getName())) {
+				build.add(e.getPlayer().getName());
+				admins.remove(e.getPlayer().getName());
+				mods.remove(e.getPlayer().getName());
+				vip.remove(e.getPlayer().getName());
+				all.remove(e.getPlayer().getName());
+				Main.rankdata
+						.set("Builders." + e.getPlayer(), build);
+				try {
+					Main.rankdata.save(Main.rankData);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
-		if (p.hasPermission(Rank.vip)) {
-			vip.add(p.getUniqueId());
+		if (e.getPlayer().hasPermission(Rank.vip)) {
+			if (!vip.contains(e.getPlayer().getName())) {
+				vip.add(e.getPlayer().getName());
+				admins.remove(e.getPlayer().getName());
+				mods.remove(e.getPlayer().getName());
+				build.remove(e.getPlayer().getName());
+				all.remove(e.getPlayer().getName());
+				Main.rankdata
+						.set("VIPs." + e.getPlayer(), vip);
+				try {
+					Main.rankdata.save(Main.rankData);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+		}
 		}
 
-		if (p.hasPermission(Rank.all)) {
-			all.add(p.getUniqueId());
+		if (e.getPlayer().hasPermission(Rank.all)) {
+			if (!all.contains(e.getPlayer().getName())) {
+				all.add(e.getPlayer().getName());
+				admins.remove(e.getPlayer().getName());
+				mods.remove(e.getPlayer().getName());
+				build.remove(e.getPlayer().getName());
+				vip.remove(e.getPlayer().getName());
+				Main.rankdata
+						.set("Players." + e.getPlayer(), all);
+				try {
+					Main.rankdata.save(Main.rankData);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}
 
 	}
 
+	@SuppressWarnings("static-access")
 	@EventHandler
 	public void join(PlayerJoinEvent e) {
 
-		Player p = e.getPlayer();
+		SPlayer p = new SPlayer(e.getPlayer());
 
-		PermissionAttachment perm = p.addAttachment(Main.getInstance());
-
-		if (admin.contains(p.getUniqueId())) {
-			perm.setPermission(Rank.admin, true);
+		if (admins.contains(e.getPlayer().getName())) {
+			p.setRank(e.getPlayer(), "admin");
 		}
 
-		if (mod.contains(p.getUniqueId())) {
-			perm.setPermission(Rank.moderator, true);
+		if (mods.contains(e.getPlayer().getName())) {
+			p.setRank(e.getPlayer(), "mod");
 		}
 
-		if (builder.contains(p.getUniqueId())) {
-			perm.setPermission(Rank.builder, true);
+		if (mods.contains(e.getPlayer().getName())) {
+			p.setRank(e.getPlayer(), "builder");
 		}
 
-		if (vip.contains(p.getUniqueId())) {
-			perm.setPermission(Rank.vip, true);
+		if (mods.contains(e.getPlayer().getName())) {
+			p.setRank(e.getPlayer(), "vip");
 		}
 
-		if (all.contains(p.getUniqueId())) {
-			perm.setPermission(Rank.all, true);
-		}
-		
-		if(p.isOp()){
-			perm.setPermission(Rank.admin, true);
+		if (all.contains(e.getPlayer().getName())) {
+			p.setRank(e.getPlayer(), "player");
 		}
 
 	}
