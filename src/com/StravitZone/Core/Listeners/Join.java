@@ -102,6 +102,8 @@ public class Join implements Listener {
 		if (!e.getPlayer().hasPlayedBefore()) {
 
 			SPlayer sp = new SPlayer(e.getPlayer());
+			
+			sp.unlockAchievement(e.getPlayer(), "newcomer");
 
 			e.getPlayer()
 					.sendMessage(

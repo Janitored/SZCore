@@ -2,7 +2,9 @@ package com.StravitZone.Core.Game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,12 +22,6 @@ import com.StravitZone.Core.Item.ItemStackFactory;
 
 public class Bow implements Listener {
 
-	int bowgametimess = 8;
-	int bowgametimeoitc = 8;
-	int bowgametimesumo = 8;
-	int bowgametimefire = 8;
-	int bowgametimetele = 8;
-
 	Location bowgamesfightss = new Location(Bukkit.getWorld("world"), 100, 100,
 			100);
 	Location bowgamesfightoitc = new Location(Bukkit.getWorld("world"), 100,
@@ -34,9 +30,30 @@ public class Bow implements Listener {
 			100, 100);
 	Location bowgamesfightfire = new Location(Bukkit.getWorld("world"), 100,
 			100, 100);
+	Location bowgamesfighttele = new Location(Bukkit.getWorld("world"), 100,
+			100, 100);
 
 	Location bowgameswait = new Location(Bukkit.getWorld("world"), 100, 100,
 			100);
+	
+	private void sharpgear(Player p){
+		p.getInventory().setHelmet(new ItemStack(Material.LEATHER_HELMET));
+		p.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
+	}
+	
+	private void sumogear(Player p){
+		p.getInventory().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
+	}
+	
+	private void firegear(Player p){
+		p.getInventory().setHelmet(new ItemStack(Material.GOLD_HELMET));
+		p.getInventory().setChestplate(new ItemStack(Material.LEATHER_CHESTPLATE));
+	}
+	
+	private void telegear(Player p){
+		p.getInventory().addItem(new ItemStack(Material.BOW));
+		p.getInventory().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
+	}
 
 	@EventHandler
 	public void click(InventoryClickEvent e) {
@@ -62,6 +79,7 @@ public class Bow implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int bowgametimess = 8;
 					public void run() {
 						bowgametimess--;
 						if(bowgametimess == 7){
@@ -78,6 +96,7 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ bowgametimess + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (bowgametimess == 0) {
@@ -87,8 +106,8 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							PlayerManager.setTribute(player);
-							this.cancel();
-							bowgametimess = 8;
+							sharpgear(player);
+							ItemStackFactory.sharpBow(player);
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -101,6 +120,7 @@ public class Bow implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int bowgametimeoitc = 8;
 					public void run() {
 						bowgametimeoitc--;
 						if(bowgametimeoitc == 7){
@@ -117,6 +137,7 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ bowgametimeoitc + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (bowgametimeoitc == 0) {
@@ -127,8 +148,6 @@ public class Bow implements Listener {
 									+ " Fight!");
 							PlayerManager.setTribute(player);
 							ItemStackFactory.oitcBow(player);
-							this.cancel();
-							bowgametimeoitc = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -141,6 +160,7 @@ public class Bow implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int bowgametimesumo = 8;
 					public void run() {
 						bowgametimesumo--;
 						if(bowgametimesumo == 7){
@@ -157,6 +177,7 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ bowgametimesumo + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (bowgametimesumo == 0) {
@@ -166,8 +187,8 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							PlayerManager.setTribute(player);
-							this.cancel();
-							bowgametimesumo = 8;
+							sumogear(player);
+							ItemStackFactory.sumoBow(player);
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -180,6 +201,7 @@ public class Bow implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int bowgametimefire = 8;
 					public void run() {
 						bowgametimefire--;
 						if(bowgametimefire == 7){
@@ -196,6 +218,7 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ bowgametimefire + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (bowgametimefire == 0) {
@@ -205,8 +228,8 @@ public class Bow implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							PlayerManager.setTribute(player);
-							this.cancel();
-							bowgametimefire = 8;
+							ItemStackFactory.fireBow(player);
+							firegear(player);
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -219,33 +242,37 @@ public class Bow implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int bowgametimetele = 8;
 					public void run() {
-						bowgametimefire--;
-						if(bowgametimefire  == 7){
+						bowgametimetele--;
+						if(bowgametimetele  == 7){
 							player.getInventory().clear();
 							PlayerManager.setWaiting(player);
 						}
-						else if (bowgametimefire == 6) {
+						else if (bowgametimetele == 6) {
 							player.teleport(bowgameswait);
 						}
 
-						else if (bowgametimefire == 5 || bowgametimefire == 4
-								|| bowgametimefire == 3 || bowgametimefire == 2
-								|| bowgametimefire == 1) {
+						else if (bowgametimetele == 5 || bowgametimetele == 4
+								|| bowgametimetele == 3 || bowgametimetele == 2
+								|| bowgametimetele == 1) {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
-									+ bowgametimefire + "s");
+									+ bowgametimetele + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
-						else if (bowgametimefire == 0) {
-							player.teleport(bowgamesfightfire);
+						else if (bowgametimetele == 0) {
+							player.teleport(bowgamesfighttele);
 							player.playSound(player.getLocation(),
 									Sound.LEVEL_UP, 1, 3);
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							PlayerManager.setTribute(player);
-							this.cancel();
-							bowgametimefire = 8;
+							
+							
+							
+							telegear(player);
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);

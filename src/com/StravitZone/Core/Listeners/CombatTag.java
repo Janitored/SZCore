@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -18,26 +17,23 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
 import com.StravitZone.Core.API.ChatManager;
-import com.StravitZone.Core.Event.PlayerDamageByPlayerEvent;
 
 public class CombatTag implements Listener {
 
-	private int tagtime = 30;
 
-	private int bantime = 60;
 
 	private List<Player> tagged = new ArrayList<>();
 
 	private List<UUID> banned = new ArrayList<>();
 
 	@EventHandler
-	public void hit(PlayerDamageByPlayerEvent e) {
+	public void hit(EntityDamageByEntityEvent e) {
 
-		final Player damager = e.getDamager();
+		final Player damager = (Player) e.getDamager();
 		
 		if(!(damager instanceof Player)) return;
 
-		final Player damaged = e.getDamaged();
+		final Player damaged = (Player) e.getEntity();
 
 		if (!(damager instanceof Player) && damaged instanceof Player)
 			return;
@@ -49,13 +45,14 @@ public class CombatTag implements Listener {
 			tagged.add(damager);
 			tagged.add(damaged);
 			
-			damager.sendMessage(ChatManager.info() + " You are now combat tagged with " + damaged.getName() + ", do /ct to view your combat tag status.");
+			damager.sendMessage(ChatManager.info() + " You are now combat tagged with " + damaged.getName() + ".");
 			
-			damaged.sendMessage(ChatManager.info() + damager.getName() + " has combat tagged you! Do /ct to view your combat tag status.");
+			damaged.sendMessage(ChatManager.info() + damager.getName() + " has combat tagged you!");
 			
 			
 
 			new BukkitRunnable() {
+				int tagtime = 30;
 				public void run() {
 
 					tagtime--;
@@ -69,9 +66,6 @@ public class CombatTag implements Listener {
 
 						tagged.remove(damager);
 						tagged.remove(damaged);
-
-						this.cancel();
-						tagtime = 30;
 					}
 
 				}
@@ -85,13 +79,15 @@ public class CombatTag implements Listener {
 	@EventHandler
 	public void quit(final PlayerQuitEvent e) {
 
-		if (tagged.contains(e.getPlayer()) && tagtime > 0) {
+		if (tagged.contains(e.getPlayer())) {
 			Bukkit.broadcastMessage(ChatManager.announcement()
 					+ e.getPlayer().getName()
 					+ " has been banned for 1 minute for combat logging!");
 			e.getPlayer().setBanned(true);
 			banned.add(e.getPlayer().getUniqueId());
+			
 			new BukkitRunnable() {
+				int bantime = 60;
 				public void run() {
 
 					bantime--;

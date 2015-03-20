@@ -118,23 +118,23 @@ public class RankHandlers implements Listener {
 
 		SPlayer p = new SPlayer(e.getPlayer());
 
-		if (admins.contains(e.getPlayer().getName())) {
+		if (e.getPlayer().hasPermission(Rank.all) &&  e.getPlayer().isOp() && admins.contains(e.getPlayer().getName())) {
 			p.setRank(e.getPlayer(), "admin");
 		}
 
-		if (mods.contains(e.getPlayer().getName())) {
+		if (e.getPlayer().hasPermission(Rank.all) && mods.contains(e.getPlayer().getName())) {
 			p.setRank(e.getPlayer(), "mod");
 		}
 
-		if (mods.contains(e.getPlayer().getName())) {
+		if (e.getPlayer().hasPermission(Rank.all) && mods.contains(e.getPlayer().getName())) {
 			p.setRank(e.getPlayer(), "builder");
 		}
 
-		if (mods.contains(e.getPlayer().getName())) {
+		if (e.getPlayer().hasPermission(Rank.all) && vip.contains(e.getPlayer().getName())) {
 			p.setRank(e.getPlayer(), "vip");
 		}
 
-		if (all.contains(e.getPlayer().getName())) {
+		if (e.getPlayer().hasPermission(Rank.all) && all.contains(e.getPlayer().getName())) {
 			p.setRank(e.getPlayer(), "player");
 		}
 

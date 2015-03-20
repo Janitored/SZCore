@@ -16,17 +16,17 @@ public class Stats extends SCommand{
 		Player p = (Player) s;
 		if(c.getName().equalsIgnoreCase("stats") && a.length == 0){
 			p.sendMessage(ChatManager.info() + " Your stats:");
-			p.sendMessage(ChatManager.info() + " Kills: " + SStats.getKills(p.getName()));
-			p.sendMessage(ChatManager.info() + " Deaths: " + SStats.getDeaths(p.getName()));
-			p.sendMessage(ChatManager.info() + " KDR: " + SStats.getKDR(p.getName()));
+			p.sendMessage(ChatManager.info() + " Kills: " + SStats.getKills(p));
+			p.sendMessage(ChatManager.info() + " Deaths: " + SStats.getDeaths(p));
+			p.sendMessage(ChatManager.info() + " KDR: " + SStats.getKDR(p));
 		}
 		
 		if(a.length == 1){
 			Player t = Bukkit.getPlayer(a[0]);
 			p.sendMessage(ChatManager.info() + t.getName() + "'s stats:");
-			p.sendMessage(ChatManager.info() + " Kills: " + SStats.getKills(t.getName()));
-			p.sendMessage(ChatManager.info() + " Deaths: " + SStats.getDeaths(t.getName()));
-			p.sendMessage(ChatManager.info() + " KDR: " + SStats.getKDR(t.getName()));
+			p.sendMessage(ChatManager.info() + " Kills: " + SStats.getKills(t));
+			p.sendMessage(ChatManager.info() + " Deaths: " + SStats.getDeaths(t));
+			p.sendMessage(ChatManager.info() + " KDR: " + SStats.getKDR(t));
 		}
 		
 		return false;

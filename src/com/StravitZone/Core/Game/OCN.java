@@ -22,12 +22,6 @@ import com.StravitZone.Core.GUI.OCNGames;
 
 public class OCN implements Listener {
 
-	int ocntimediamond = 8;
-	int ocntimegold = 8;
-	int ocntimeiron = 8;
-	int ocntimechain = 8;
-	int ocntimeleather = 8;
-
 	private void diamondgear(Player player) {
 		player.getInventory().clear();
 		player.getInventory().addItem(ocndiamondgear);
@@ -133,6 +127,7 @@ public class OCN implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ocntimediamond = 8;
 					public void run() {
 						ocntimediamond--;
 						if (ocntimediamond == 7) {
@@ -159,9 +154,7 @@ public class OCN implements Listener {
 							player.sendMessage(ChatManager.success()
 									+ " Fight!");
 							PlayerManager.setTribute(player);
-							this.cancel();
 							diamondgear(player);
-							ocntimediamond = 8;
 						}
 
 					}
@@ -175,6 +168,7 @@ public class OCN implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ocntimegold = 8;
 					public void run() {
 						ocntimegold--;
 						if (ocntimegold == 7) {
@@ -202,8 +196,6 @@ public class OCN implements Listener {
 									+ " Fight!");
 							goldgear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							ocntimegold = 8;
 						}
 
 					}
@@ -217,6 +209,7 @@ public class OCN implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ocntimeiron = 8;
 					public void run() {
 						ocntimeiron--;
 						if (ocntimeiron == 7) {
@@ -244,8 +237,6 @@ public class OCN implements Listener {
 									+ " Fight!");
 							PlayerManager.setTribute(player);
 							irongear(player);
-							this.cancel();
-							ocntimeiron = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -258,6 +249,7 @@ public class OCN implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ocntimechain = 8;
 					public void run() {
 						ocntimechain--;
 						if (ocntimechain == 7) {
@@ -285,8 +277,6 @@ public class OCN implements Listener {
 									+ " Fight!");
 							chaingear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							ocntimechain = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -299,6 +289,7 @@ public class OCN implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ocntimeleather = 8;
 					public void run() {
 						ocntimeleather--;
 						if (ocntimeleather == 7) {
@@ -326,8 +317,6 @@ public class OCN implements Listener {
 									+ " Fight!");
 							leathergear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							ocntimeleather = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);

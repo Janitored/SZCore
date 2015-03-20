@@ -3,6 +3,7 @@ main: com.StravitZone.Core.Main
 version: 2.1.5
 author: Janitored
 depend: [BarAPI]
+depend: [ProtocolLib]
 commands:
     rank:
         description: Set a player's rank
@@ -68,3 +69,5 @@ commands:
     multiplycredits:
         description: Multiply credit value
         aliases: [mc]
+    achievements:
+        description: View your achievements

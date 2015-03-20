@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -14,6 +15,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.StravitZone.Core.Main;
+import com.StravitZone.Core.API.AchievementManager;
+import com.StravitZone.Core.API.ChatManager;
 import com.StravitZone.Core.API.MuteHandlers;
 import com.StravitZone.Core.API.PlayerManager;
 import com.StravitZone.Core.API.Rank;
@@ -224,6 +227,35 @@ public class SPlayer {
 	public void kick(Player p, String reason) {
 		p.kickPlayer(reason);
 	}
+	
+	public void unlockAchievement(Player p, String achievement){
+		if(achievement.equalsIgnoreCase("newcomer")){
+			AchievementManager.compnew.add(p);
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
+			p.sendMessage(ChatManager.success() + " Newcomer:");
+			p.sendMessage(ChatManager.success() + " Join the server for the first time");
+			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lNEWCOMER§b!");
+		}
+		
+		if(achievement.equalsIgnoreCase("firstkill")){
+			AchievementManager.compfk.add(p);
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
+			p.sendMessage(ChatManager.success() + " First Kill:");
+			p.sendMessage(ChatManager.success() + " Kill your first victim!");
+			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lFIRST KILL§b!");
+		}
+		
+		if(achievement.equalsIgnoreCase("firstdeath")){
+			AchievementManager.compfd.add(p);
+			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
+			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
+			p.sendMessage(ChatManager.success() + " First Death:");
+			p.sendMessage(ChatManager.success() + " Die for the first time!");
+			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lFIRST DEATH§b!");
+		}
+	}
 
 	public void showStatBoard(Player p) {
 		
@@ -236,7 +268,7 @@ public class SPlayer {
 				"dummy");
 
 		Score kill = obj.getScore("§a§lKills: ");
-		kill.setScore(SStats.getKills(p.getName()));
+		kill.setScore(SStats.getKills(p));
 		
 		obj.setDisplayName("§6§lSZ §7- §bYour Stats");
 		
@@ -244,7 +276,7 @@ public class SPlayer {
 
 		Score death = obj.getScore("§4§lDeaths: ");
 		
-		death.setScore(SStats.getDeaths(p.getName()));
+		death.setScore(SStats.getDeaths(p));
 		
 		Score credits = obj.getScore("§9§lCredits: ");
 		

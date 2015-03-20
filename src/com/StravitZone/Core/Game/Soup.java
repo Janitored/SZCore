@@ -22,12 +22,6 @@ import com.StravitZone.Core.GUI.SoupGames;
 
 public class Soup implements Listener {
 
-	int ffa = 8;
-	int snipe = 8;
-	int debuff = 8;
-	int swift = 8;
-	int mcsg = 8;
-
 	Location ffafight = new Location(Bukkit.getWorld("world"), 100, 100, 100);
 	Location snipefight = new Location(Bukkit.getWorld("world"), 100, 100, 100);
 	Location debufffight = new Location(Bukkit.getWorld("world"), 100, 100, 100);
@@ -208,6 +202,7 @@ public class Soup implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int ffa = 8;
 					public void run() {
 						ffa--;
 						if (ffa == 7) {
@@ -222,6 +217,7 @@ public class Soup implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6" + ffa
 									+ "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (ffa == 0) {
@@ -232,8 +228,6 @@ public class Soup implements Listener {
 									+ " Fight!");
 							PlayerManager.setTribute(player);
 							ffagear(player);
-							this.cancel();
-							ffa = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -246,6 +240,7 @@ public class Soup implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int snipe = 8;
 					public void run() {
 						snipe--;
 						if (snipe == 7) {
@@ -261,6 +256,7 @@ public class Soup implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ snipe + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (snipe == 0) {
@@ -271,8 +267,6 @@ public class Soup implements Listener {
 									+ " Fight!");
 							PlayerManager.setTribute(player);
 							snipegear(player);
-							this.cancel();
-							snipe = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -285,6 +279,7 @@ public class Soup implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int debuff = 8;
 					public void run() {
 						debuff--;
 						if (debuff == 7) {
@@ -300,6 +295,7 @@ public class Soup implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ debuff + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (debuff == 0) {
@@ -310,8 +306,6 @@ public class Soup implements Listener {
 									+ " Fight!");
 							debuffgear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							debuff = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -324,6 +318,7 @@ public class Soup implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int swift = 8;
 					public void run() {
 						swift--;
 						if (swift == 7) {
@@ -339,6 +334,7 @@ public class Soup implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ swift + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (swift == 0) {
@@ -349,8 +345,6 @@ public class Soup implements Listener {
 									+ " Fight!");
 							swiftgear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							swift = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
@@ -363,6 +357,7 @@ public class Soup implements Listener {
 				player.sendMessage(ChatManager.success() + " Teleporting...");
 
 				new BukkitRunnable() {
+					int mcsg = 8;
 					public void run() {
 						mcsg--;
 						if (mcsg == 7) {
@@ -378,6 +373,7 @@ public class Soup implements Listener {
 							player.sendMessage(ChatManager.announcement()
 									+ " You will get your items in §6"
 									+ mcsg + "s");
+							player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 						}
 
 						else if (mcsg == 0) {
@@ -388,8 +384,6 @@ public class Soup implements Listener {
 									+ " Fight!");
 							mcsggear(player);
 							PlayerManager.setTribute(player);
-							this.cancel();
-							mcsg = 8;
 						}
 					}
 				}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);

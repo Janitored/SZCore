@@ -1,9 +1,9 @@
 package com.StravitZone.Core.API;
 
+import java.text.DecimalFormat;
+
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.StravitZone.Core.Main;
 
@@ -17,31 +17,31 @@ public class SStats implements Listener {
 		}
 	}
 
-	public static int getKills(String player) {
-	return Main.stats.getInt("Players." + player + ".Kills");
+	public static int getKills(Player player) {
+	return Main.stats.getInt("Players." + player.getName() + ".Kills");
 
 	}
 
-	public static void addKill(String player) {
-		Main.stats.set("Players." + player + ".Kills", getKills(player) + 1);
+	public static void addKill(Player player) {
+		Main.stats.set("Players." + player.getName() + ".Kills", Main.stats.getInt("Players." + player.getName() + ".Kills") + 1);
 		saveStats();
 	}
 
-	public static int getDeaths(String player) {
+	public static int getDeaths(Player player) {
 
-			return Main.stats.getInt("Players." + player + ".Deaths");
+			return Main.stats.getInt("Players." + player.getName() + ".Deaths");
 	}
 	
-	public static double getKDR(String player){
-		if(getKills(player) == 0 && getDeaths(player) == 0){
+	public static double getKDR(Player player){
+		if(getKills(player) == 0 || getDeaths(player) == 0){
 			return 0.0;
 		} else {
-			return getKills(player) / getDeaths(player);
+		return getKills(player) / getDeaths(player);
 		}
 	}
 
-	public static void addDeath(String player) {
-		Main.stats.set("Players." + player + ".Deaths", getDeaths(player) + 1);
+	public static void addDeath(Player player) {
+		Main.stats.set("Players." + player.getName() + ".Deaths", Main.stats.getInt("Players." + player.getName() + ".Deaths") + 1);
 		saveStats();
 	}
 

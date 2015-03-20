@@ -6,20 +6,25 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.StravitZone.Core.Main;
-import com.StravitZone.Core.Event.PlayerDamageByPlayerEvent;
-import com.StravitZone.Core.Event.PlayerDamageEvent;
+import com.StravitZone.Core.Item.ItemStackFactory;
 
 public class PlayerManager implements Listener {
 
@@ -44,14 +49,14 @@ public class PlayerManager implements Listener {
 	}
 
 	@EventHandler
-	public void interact(PlayerDamageByPlayerEvent e) {
+	public void interact(EntityDamageByEntityEvent e) {
 
-		if (isSpectator(e.getDamager())) {
+		if (isSpectator((Player)e.getDamager())) {
 			e.setCancelled(true);
 		}
 
-		if (isSpectator(e.getDamaged())
-				&& isTribute(e.getDamager())) {
+		if (isSpectator((Player)e.getEntity())
+				&& isTribute((Player)e.getDamager())) {
 			e.setCancelled(true);
 
 		}
@@ -70,8 +75,8 @@ public class PlayerManager implements Listener {
 	}
 
 	@EventHandler
-	public void damage(PlayerDamageEvent e) {
-		Player p = e.getPlayer();
+	public void damage(EntityDamageEvent e) {
+		Player p = (Player) e.getEntity();
 
 			if (isSpectator(p)) {
 				e.setCancelled(true);
@@ -82,15 +87,13 @@ public class PlayerManager implements Listener {
 			}
 		}
 
-	private static int i = 6;
-
 	static Location hub = new Location(Bukkit.getWorld("world"), 100, 100, 100);
 
 	public static void setSpectator(final Player player) {
 
 		player.sendMessage(ChatManager.success()
 				+ " You are now in §e§oSpectator §6mode.");
-
+		
 		specs.add(player);
 
 		tributes.remove(player);
@@ -106,38 +109,30 @@ public class PlayerManager implements Listener {
 
 		player.setAllowFlight(true);
 		player.setFlying(true);
-
-		new BukkitRunnable() {
-			public void run() {
+		
+		new BukkitRunnable(){
+			int i = 10;
+			public void run(){
 				i--;
-
-				if (i == 3) {
-					player.sendMessage(ChatManager.announcement()
-							+ " Returning to hub in §a3§bs");
+				if(i == 3){
+					player.sendMessage(ChatManager.info() + " You will return to hub in 3 seconds..");
 					player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 				}
-
-				else if (i == 2) {
-					player.sendMessage(ChatManager.announcement()
-							+ " Returning to hub in §a2§bs");
+				
+				if(i == 2){
+					player.sendMessage(ChatManager.info() + " You will return to hub in 2 seconds..");
 					player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 				}
-
-				else if (i == 1) {
-					player.sendMessage(ChatManager.announcement()
-							+ " Returning to hub in §a1§bs");
+				
+				if(i == 1){
+					player.sendMessage(ChatManager.info() + " You will return to hub in 1 second..");
 					player.playSound(player.getLocation(), Sound.CLICK, 1, 1);
 				}
-
-				else if (i == 0) {
-					player.sendMessage(ChatManager.announcement()
-							+ " Returning to hub...");
+				
+				if(i == 0){
 					player.teleport(hub);
 					setTribute(player);
-					this.cancel();
-					i = 6;
 				}
-
 			}
 		}.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
 

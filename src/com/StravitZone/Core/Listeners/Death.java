@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,19 +30,33 @@ public class Death implements Listener {
 		Player killed = (Player) e.getEntity();
 
 		Player killer = killed.getKiller();
+		
+		
 
-		if (killer instanceof Player && killed instanceof Player) {
+		if (killed instanceof Player && killer instanceof Player) {
+			
+			PlayerManager.setSpectator(killed);
 
 			SPlayer sp = new SPlayer(killer);
 
-			PlayerManager.setSpectator(killed);
-
-			killer.sendMessage(ChatManager.info() + " +" + CreditManager.getValue() + " credits!");
+			killer.sendMessage(ChatManager.info() + " +"
+					+ CreditManager.getValue() + " credits!");
 
 			sp.addCredits(killer, CreditManager.getValue());
 
-			SStats.addKill(killer.getName());
-			SStats.addDeath(killed.getName());
+			SStats.addKill(killer);
+			SStats.addDeath(killed);
+			
+			sp.showStatBoard(killer);
+			sp.showStatBoard(killed);
+			
+			if(SStats.getKills(killer) == 1){
+				sp.unlockAchievement(killer, "firstkill");
+			}
+			
+			if(SStats.getDeaths(killed) == 1){
+				sp.unlockAchievement(killed, "firstdeath");
+			}
 
 			return;
 		}
@@ -50,7 +65,7 @@ public class Death implements Listener {
 
 			p.playSound(p.getLocation(), Sound.WITHER_SPAWN, 1, 1);
 
-			if (killer instanceof Player) {
+			if (killer instanceof Player && killer.getItemInHand() != null) {
 				switch (killer.getItemInHand().getType()) {
 				case DIAMOND_SWORD:
 					e.setDeathMessage("§4§l>> §9" + killed.getName()
@@ -148,7 +163,7 @@ public class Death implements Listener {
 
 				}
 			}
-			
+
 			// Killstreaks
 
 			if (killed.getLevel() >= 5) {
@@ -160,36 +175,39 @@ public class Death implements Listener {
 			}
 
 			killed.setLevel(0);
-			
-			if(killer instanceof Player){
 
-			killer.setLevel(killer.getLevel() + 1);
-			}
+			if (killer instanceof Player) {
 
-			if (killer.getLevel() == 3) {
-				Bukkit.broadcastMessage(ChatManager.info() + killer.getName()
-						+ " got a §4§lTRIPLE KILL! §b(3 kills)");
-				p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
-			}
+				killer.setLevel(killer.getLevel() + 1);
+		}
 
-			if (killer.getLevel() == 5) {
-				Bukkit.broadcastMessage(ChatManager.info() + killer.getName()
-						+ " got a §4§lMONSTER KILL! §b(5 kills)");
-				p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 2);
-			}
+				else if (killer.getLevel() == 3 && killer instanceof Player) {
+					Bukkit.broadcastMessage(ChatManager.info()
+							+ killer.getName()
+							+ " got a §4§lTRIPLE KILL! §b(3 kills)");
+					p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 1);
+				}
 
-			if (killer.getLevel() == 7) {
-				Bukkit.broadcastMessage(ChatManager.info() + killer.getName()
-						+ " got a §4§lMEGA KILL! §b(7 kills)");
-				p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 3);
-			}
+				else if (killer.getLevel() == 5 && killer instanceof Player) {
+					Bukkit.broadcastMessage(ChatManager.info()
+							+ killer.getName()
+							+ " got a §4§lMONSTER KILL! §b(5 kills)");
+					p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 2);
+				}
 
-			if (killer.getLevel() == 10) {
-				Bukkit.broadcastMessage(ChatManager.info() + killer.getName()
-						+ " got a §4§lGODLIKE KILL! §b(10 kills)");
-				p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 4);
+				else if (killer.getLevel() == 7 && killer instanceof Player) {
+					Bukkit.broadcastMessage(ChatManager.info()
+							+ killer.getName()
+							+ " got a §4§lMEGA KILL! §b(7 kills)");
+					p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 3);
+				}
+
+				else if (killer.getLevel() == 10 && killer instanceof Player) {
+					Bukkit.broadcastMessage(ChatManager.info()
+							+ killer.getName()
+							+ " got a §4§lGODLIKE KILL! §b(10 kills)");
+					p.playSound(p.getLocation(), Sound.ENDERDRAGON_GROWL, 1, 4);
+				}
 			}
 		}
 	}
-
-}

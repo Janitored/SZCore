@@ -9,17 +9,20 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginManager;
 
+import com.StravitZone.Core.API.AchievementManager;
 import com.StravitZone.Core.API.AutoBroadcaster;
 import com.StravitZone.Core.API.BossBar;
 import com.StravitZone.Core.API.LockedChatHandler;
 import com.StravitZone.Core.API.MOTD;
 import com.StravitZone.Core.API.MuteHandlers;
+import com.StravitZone.Core.API.PCMessage;
 import com.StravitZone.Core.API.PlayerManager;
 import com.StravitZone.Core.API.RankChat;
 import com.StravitZone.Core.API.RankHandlers;
 import com.StravitZone.Core.API.SStats;
 import com.StravitZone.Core.API.ServerManager;
 import com.StravitZone.Core.API.Stravit;
+import com.StravitZone.Core.Commands.Achievements;
 import com.StravitZone.Core.Commands.Addworld;
 import com.StravitZone.Core.Commands.Broadcast;
 import com.StravitZone.Core.Commands.Chat;
@@ -49,6 +52,7 @@ import com.StravitZone.Core.Commands.Worlds;
 import com.StravitZone.Core.Game.Bow;
 import com.StravitZone.Core.Game.GameManager;
 import com.StravitZone.Core.Game.OCN;
+import com.StravitZone.Core.Game.PotionGame;
 import com.StravitZone.Core.Game.Soup;
 import com.StravitZone.Core.Listeners.BanJoin;
 import com.StravitZone.Core.Listeners.CombatTag;
@@ -73,6 +77,9 @@ public class Main extends Stravit {
 	
 	public static File creditValues;
 	public static FileConfiguration creditvalues;
+	
+	public static File achievements;
+	public static FileConfiguration achieve;
 
 	public void onEnable() {
 
@@ -83,6 +90,8 @@ public class Main extends Stravit {
 		BossBar.enable();
 
 		ServerManager.generateWorlds();
+		
+		PCMessage.enable();
 
 		// Config
 
@@ -112,6 +121,13 @@ public class Main extends Stravit {
 		
 		if (!creditValues.exists()) {
 			creditvalues.options().copyDefaults(true);
+		}
+		
+		achievements = new File(getDataFolder(), "achievements.yml");
+		achieve = YamlConfiguration.loadConfiguration(achievements);
+		
+		if(!achievements.exists()){
+			achieve.options().copyDefaults(true);
 		}
 
 		// Loading Data
@@ -155,6 +171,16 @@ public class Main extends Stravit {
 		} catch (InvalidConfigurationException e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			achieve.load(achievements);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
 
 		// Listeners
 
@@ -178,6 +204,8 @@ public class Main extends Stravit {
 		listeners.registerEvents(new ServerLockHandler(), this);
 		listeners.registerEvents(new GameManager(), this);
 		listeners.registerEvents(new SStats(), this);
+		listeners.registerEvents(new PotionGame(), this);
+		listeners.registerEvents(new AchievementManager(), this);
 
 		// Commands
 
@@ -208,6 +236,7 @@ public class Main extends Stravit {
 		getCommand("credit").setExecutor(new Credit());
 		getCommand("stats").setExecutor(new Stats());
 		getCommand("datareload").setExecutor(new DataReload());
+		getCommand("achievements").setExecutor(new Achievements());
 
 	}
 
@@ -235,6 +264,12 @@ public class Main extends Stravit {
 		
 		try {
 			creditvalues.save(creditValues);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			achieve.save(achievements);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
