@@ -1,5 +1,7 @@
 package com.StravitZone.Core.Player;
 
+import java.io.IOException;
+
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permissible;
@@ -78,7 +80,7 @@ public class OfflineSPlayer {
 
 	}
 
-	public static void setRank(OfflinePlayer p, String rank) {
+	public static void setRank(OfflinePlayer p, String rank){
 
 		if (rank == null) {
 			
@@ -87,8 +89,13 @@ public class OfflineSPlayer {
 			RankHandlers.build.remove(p.getName());
 			RankHandlers.vip.remove(p.getName());
 			RankHandlers.all.add(p.getName());
-			Main.getInstance().getConfig().set("Players." + p, RankHandlers.all);
-			Main.getInstance().saveConfig();
+			Main.rankdata.set("Players." + p, RankHandlers.all);
+			try {
+				Main.rankdata.save(Main.rankData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		if (rank.equalsIgnoreCase("admin")) {
@@ -98,8 +105,13 @@ public class OfflineSPlayer {
 			RankHandlers.build.remove(p.getName());
 			RankHandlers.vip.remove(p.getName());
 			RankHandlers.all.remove(p.getName());
-			Main.getInstance().getConfig().set("Admins." + p, RankHandlers.admins);
-			Main.getInstance().saveConfig();
+			Main.rankdata.set("Admins." + p, RankHandlers.admins);
+			try {
+				Main.rankdata.save(Main.rankData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
@@ -110,7 +122,7 @@ public class OfflineSPlayer {
 			RankHandlers.build.remove(p.getName());
 			RankHandlers.vip.remove(p.getName());
 			RankHandlers.all.remove(p.getName());
-			Main.getInstance().getConfig().set("Mods." + p, RankHandlers.mods);
+			Main.rankdata.set("Mods." + p, RankHandlers.mods);
 			Main.getInstance().saveConfig();
 			
 		}
@@ -122,8 +134,13 @@ public class OfflineSPlayer {
 			RankHandlers.build.add(p.getName());
 			RankHandlers.vip.remove(p.getName());
 			RankHandlers.all.remove(p.getName());
-			Main.getInstance().getConfig().set("Builders." + p, RankHandlers.build);
-			Main.getInstance().saveConfig();
+			Main.rankdata.set("Builders." + p, RankHandlers.build);
+			try {
+				Main.rankdata.save(Main.rankData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		if (rank.equalsIgnoreCase("vip")) {
@@ -133,8 +150,13 @@ public class OfflineSPlayer {
 			RankHandlers.build.remove(p.getName());
 			RankHandlers.vip.add(p.getName());
 			RankHandlers.all.remove(p.getName());
-			Main.getInstance().getConfig().set("VIPs." + p, RankHandlers.vip);
-			Main.getInstance().saveConfig();
+			Main.rankdata.set("VIPs." + p, RankHandlers.vip);
+			try {
+				Main.rankdata.save(Main.rankData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
@@ -144,8 +166,13 @@ public class OfflineSPlayer {
 			RankHandlers.build.remove(p.getName());
 			RankHandlers.vip.remove(p.getName());
 			RankHandlers.all.add(p.getName());
-			Main.getInstance().getConfig().set("Players." + p, RankHandlers.admins);
-			Main.getInstance().saveConfig();
+			Main.rankdata.set("Players." + p, RankHandlers.admins);
+			try {
+				Main.rankdata.save(Main.rankData);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}

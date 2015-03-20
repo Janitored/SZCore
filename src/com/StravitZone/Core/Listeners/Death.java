@@ -49,14 +49,6 @@ public class Death implements Listener {
 			
 			sp.showStatBoard(killer);
 			sp.showStatBoard(killed);
-			
-			if(SStats.getKills(killer) == 1){
-				sp.unlockAchievement(killer, "firstkill");
-			}
-			
-			if(SStats.getDeaths(killed) == 1){
-				sp.unlockAchievement(killed, "firstdeath");
-			}
 
 			return;
 		}

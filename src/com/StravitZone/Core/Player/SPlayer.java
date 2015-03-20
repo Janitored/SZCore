@@ -15,7 +15,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.StravitZone.Core.Main;
-import com.StravitZone.Core.API.AchievementManager;
 import com.StravitZone.Core.API.ChatManager;
 import com.StravitZone.Core.API.MuteHandlers;
 import com.StravitZone.Core.API.PlayerManager;
@@ -226,35 +225,6 @@ public class SPlayer {
 
 	public void kick(Player p, String reason) {
 		p.kickPlayer(reason);
-	}
-	
-	public void unlockAchievement(Player p, String achievement){
-		if(achievement.equalsIgnoreCase("newcomer")){
-			AchievementManager.compnew.add(p);
-			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
-			p.sendMessage(ChatManager.success() + " Newcomer:");
-			p.sendMessage(ChatManager.success() + " Join the server for the first time");
-			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lNEWCOMER§b!");
-		}
-		
-		if(achievement.equalsIgnoreCase("firstkill")){
-			AchievementManager.compfk.add(p);
-			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
-			p.sendMessage(ChatManager.success() + " First Kill:");
-			p.sendMessage(ChatManager.success() + " Kill your first victim!");
-			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lFIRST KILL§b!");
-		}
-		
-		if(achievement.equalsIgnoreCase("firstdeath")){
-			AchievementManager.compfd.add(p);
-			p.playSound(p.getLocation(), Sound.LEVEL_UP, 1, 1);
-			p.sendMessage(ChatManager.success() + " ACHIEVEMENT GET!");
-			p.sendMessage(ChatManager.success() + " First Death:");
-			p.sendMessage(ChatManager.success() + " Die for the first time!");
-			Bukkit.broadcastMessage(ChatManager.announcement() + p.getName() + " completed the achievement §a§lFIRST DEATH§b!");
-		}
 	}
 
 	public void showStatBoard(Player p) {
